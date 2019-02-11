@@ -1,11 +1,11 @@
 package models
 
 import (
-	"pfws.go/kernel/db"
+	"github.com/goris/kernel/db"
 	"strconv"
 )
 
-type User struct{
+type User struct {
 	db.Model
 }
 

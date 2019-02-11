@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"pfws.go/kernel/curl"
+	"github.com/goris/kernel/curl"
 )
 
 type MyTest struct {
-	a int `json:"aaaa"`
+	a int    `json:"aaaa"`
 	b string `json:"bbbb"`
 }
 
@@ -14,7 +14,7 @@ func (m *MyTest) MyTest() {
 	m.a = 1
 }
 
-func (test *MyTest) set(a int, b string)  {
+func (test *MyTest) set(a int, b string) {
 	test.a = a
 	test.b = b
 }
@@ -24,11 +24,10 @@ type MyChildTest struct {
 }
 
 func main() {
-//	test := new(MyChildTest)
-////	test.set(1,"2")
-//	test.MyTest.MyTest()
-//	fmt.Println(test)
-
+	//	test := new(MyChildTest)
+	////	test.set(1,"2")
+	//	test.MyTest.MyTest()
+	//	fmt.Println(test)
 
 	//Query("SELECT login_name FROM user WHERE user_id = ? and user_id = ? and login_name = ?", args...)
 	//where := []Where{
@@ -141,7 +140,6 @@ func main() {
 	//
 	//fmt.Println("m:", m)
 
-
 	//datas := []map[string]string{
 	//	{
 	//		"ip": "ip1",
@@ -193,11 +191,9 @@ func main() {
 	//fmt.Println(c, err2)
 
 	//a, b := http.Get("")
-
 	res, err := curl.Get("http://tool.bitefu.net/jiari/vip.php?d=201901&type=0&apikey=123456", true)
 	//aaa := res.(map[string]interface{})["data"].(map[string]interface{})["201810"].(map[string]interface{})["1004"].(float64)
 	fmt.Println(res, err)
-
 
 	//header := []curl.Header{
 	//	{"Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -223,11 +219,10 @@ func main() {
 	//	Test2 float64
 	//}
 	//
- 	//err = redis.Set("yangxb", 1111, 30)
- 	//fmt.Println(err)
+	//err = redis.Set("yangxb", 1111, 30)
+	//fmt.Println(err)
 	//
- 	//res, err2 := redis.Keys("yangxb12", true)
- 	//fmt.Println(res, err2)
-
+	//res, err2 := redis.Keys("yangxb12", true)
+	//fmt.Println(res, err2)
 
 }

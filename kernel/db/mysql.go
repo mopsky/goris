@@ -9,8 +9,8 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/goris/utils"
 	"github.com/kataras/iris/core/errors"
-	"pfws.go/utils"
 	"strconv"
 	"strings"
 )
@@ -19,27 +19,27 @@ import (
 type Where struct {
 	Column string
 	Symbol string
-	Value interface{}
+	Value  interface{}
 }
 
 type Model struct {
-	sTable string
-	sFields string
-	sJoin string
-	sWhere string // where 条件
-	sLimit string // limit 条件
+	sTable   string
+	sFields  string
+	sJoin    string
+	sWhere   string        // where 条件
+	sLimit   string        // limit 条件
 	bindArgs []interface{} // 绑定变量参数
-	sOrder string
-	sGroup string
-	sHaving string
-	sSQL string //最后封装形成的SQL语句
+	sOrder   string
+	sGroup   string
+	sHaving  string
+	sSQL     string //最后封装形成的SQL语句
 
-	db *sql.DB //数据库连接
-	tx *sql.Tx //事务管理器
+	db         *sql.DB //数据库连接
+	tx         *sql.Tx //事务管理器
 	dbFieldsKV map[string]string
-	dbFields []string
-	dbRows *sql.Rows
-	err error //错误类
+	dbFields   []string
+	dbRows     *sql.Rows
+	err        error //错误类
 }
 
 func (m *Model) SetTable(sTable string) *Model {
@@ -47,12 +47,12 @@ func (m *Model) SetTable(sTable string) *Model {
 	return m
 }
 
-func (m *Model) Open(sTable string){
+func (m *Model) Open(sTable string) {
 	Init(m, sTable)
 }
 
 //初始化数据库
-func Init(m *Model, sTable string)  {
+func Init(m *Model, sTable string) {
 	if sTable == "" {
 		m.db = nil
 		m.err = errors.New("表名不能为空")
@@ -86,7 +86,7 @@ func Init(m *Model, sTable string)  {
 	var sField, sType string
 	var sNull, sKey, sDefault, sExtra sql.NullString
 	m.dbFieldsKV = make(map[string]string)
-	for m.dbRows.Next(){
+	for m.dbRows.Next() {
 		if m.err = m.dbRows.Scan(&sField, &sType, &sNull, &sKey, &sDefault, &sExtra); m.err != nil {
 			return
 		}
@@ -96,7 +96,7 @@ func Init(m *Model, sTable string)  {
 }
 
 //校验数据库连接
-func CheckConn(m * Model) bool {
+func CheckConn(m *Model) bool {
 	if m.db == nil {
 		m.err = errors.New("数据库未初始化")
 		return false
@@ -144,10 +144,10 @@ func (m *Model) _clear() {
 	m.bindArgs = nil
 }
 
-func (m *Model) _where (v ...string) {
+func (m *Model) _where(v ...string) {
 	if m.sWhere == "" {
 		m.sWhere += " WHERE "
-	}else {
+	} else {
 		m.sWhere += " AND "
 	}
 
@@ -190,9 +190,9 @@ func (m *Model) Fields(sFields string) *Model {
 func (m *Model) Limit(limit ...int) *Model {
 	if len(limit) == 0 {
 		return m
-	}else if len(limit) == 1 {
+	} else if len(limit) == 1 {
 		m.sLimit = " LIMIT " + strconv.Itoa(limit[0])
-	}else {
+	} else {
 		m.sLimit = " LIMIT " + strconv.Itoa(limit[0]) + "," + strconv.Itoa(limit[1])
 	}
 
@@ -322,7 +322,7 @@ func (m *Model) GetField(sFields string) (map[string]map[string]string, error) {
 		return nil, err
 	}
 
-	for _, v := range res{
+	for _, v := range res {
 		key := v[sFirstColumn]
 		delete(v, sFirstColumn)
 		result[key] = v
@@ -330,7 +330,6 @@ func (m *Model) GetField(sFields string) (map[string]map[string]string, error) {
 
 	return result, nil
 }
-
 
 // 返回记录条数
 func (m *Model) Count() (int, error) {
@@ -483,7 +482,7 @@ func (m *Model) AddAll(datas []map[string]string) (int64, error) {
 
 	// 为保证key的顺序
 	aColumns, sColumns, sTemp, sValues, i := []string{}, "", "", "", 0
-	for k ,_ := range datas[0]{
+	for k, _ := range datas[0] {
 		aColumns = append(aColumns, k)
 		sColumns += k
 		sTemp += "?"
@@ -494,13 +493,13 @@ func (m *Model) AddAll(datas []map[string]string) (int64, error) {
 	}
 
 	var excuteArgs []interface{}
-	for k, v := range datas{
-		for _, value := range aColumns{
+	for k, v := range datas {
+		for _, value := range aColumns {
 			excuteArgs = append(excuteArgs, v[value])
 		}
 
 		sValues += "(" + sTemp + ")"
-		if k + 1 < len(datas) {
+		if k+1 < len(datas) {
 			sValues += ", "
 		}
 	}
@@ -541,16 +540,16 @@ func (m *Model) Save(data map[string]string) (int64, error) {
 	}
 
 	var aColumns []string
-	for k, _ := range data{
+	for k, _ := range data {
 		aColumns = append(aColumns, k)
 	}
 
 	var excuteArgs []interface{}
 	m.sSQL = "UPDATE " + m.sTable + " SET "
-	for k, v := range aColumns{
+	for k, v := range aColumns {
 		excuteArgs = append(excuteArgs, data[v])
 		m.sSQL += v + " = ?"
-		if k + 1 < len(data){
+		if k+1 < len(data) {
 			m.sSQL += ", "
 		}
 	}

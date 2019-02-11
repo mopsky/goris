@@ -1,10 +1,10 @@
 package models
 
 import (
-	"pfws.go/kernel/db"
+	"github.com/goris/kernel/db"
 )
 
-type Shops struct{
+type Shops struct {
 	db.Model
 }
 
@@ -13,4 +13,3 @@ func NewShops() *User {
 	m.Open("shops")
 	return m
 }
-

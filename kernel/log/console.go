@@ -2,7 +2,7 @@ package console
 
 import (
 	"fmt"
-	"pfws.go/utils"
+	"github.com/goris/utils"
 )
 
 const (
@@ -16,13 +16,13 @@ const (
 	TextWhite
 )
 
-func Log(args ...interface{})  {
+func Log(args ...interface{}) {
 	time := "[" + utils.NowTime() + "] "
 	fmt.Print(time)
 	fmt.Println(args...)
 }
 
-func Logr(value string, args ...interface{})  {
+func Logr(value string, args ...interface{}) {
 	value = "[" + utils.NowTime() + "] " + value + "\r"
 	fmt.Printf(value, args...)
 }

@@ -2,12 +2,12 @@ package router
 
 /**
   路由器
- */
+*/
 
 import (
+	AdminControllers "github.com/goris/apps/admin/controllers"
+	HomeControllers "github.com/goris/apps/home/controllers"
 	"github.com/kataras/iris/mvc"
-	AdminControllers "pfws.go/apps/admin/controllers"
-	HomeControllers "pfws.go/apps/home/controllers"
 )
 
 /* Home 控制器 */

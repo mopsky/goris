@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/goris/router"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
-	"pfws.go/router"
 )
 
 const (
@@ -25,10 +25,11 @@ func main() {
 	app.Run(iris.Addr(":8080"))
 }
 
-func handler(ctx iris.Context){
+func handler(ctx iris.Context) {
 	fmt.Println(ctx)
 	ctx.Writef("Hello from method: %s and path: %s", ctx.Method(), ctx.Path())
 }
+
 //
 //type err struct {
 //	Title string
