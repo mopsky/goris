@@ -13,14 +13,13 @@ const (
 
 func main() {
 	app := iris.New()
-	app.RegisterView(iris.HTML("./apps/home/views", ".html").Layout("shared/layout.html"))
+	//app.RegisterView(iris.HTML("./apps/home/views", ".html").Layout("shared/layout.html"))
 	app.StaticWeb("/public", publicDir)
 	//app.OnAnyErrorCode(onError)
-	//mvc.New(app.Party("/")).Handle(new(HomeControllers.BaseController))
-	//mvc.New(app.Party("/admin")).Handle(new(AdminControllers.IndexController))
 
 	mvc.Configure(app.Party("/"), router.HomeRouters)
 	mvc.Configure(app.Party("/admin"), router.AdminRouters)
+	//mvc.New(app.Party("/*")).Handle(new(controllers.BaseController))
 
 	app.Run(iris.Addr(":8080"))
 }

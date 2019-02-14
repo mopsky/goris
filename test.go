@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/goris/kernel/curl"
+	"reflect"
 )
 
 type MyTest struct {
@@ -191,9 +192,12 @@ func main() {
 	//fmt.Println(c, err2)
 
 	//a, b := http.Get("")
-	res, err := curl.Get("http://tool.bitefu.net/jiari/vip.php?d=201901&type=0&apikey=123456", true)
-	//aaa := res.(map[string]interface{})["data"].(map[string]interface{})["201810"].(map[string]interface{})["1004"].(float64)
-	fmt.Println(res, err)
+	for i := 0; i < 2; i++ {
+		res, err := curl.Get("http://tool.bitefu.net/jiari/vip.php?d=201901&type=0&apikey=123456", true)
+		//fmt.Println(res)
+		aaa, ok := res.(map[string]interface{})["status"]
+		fmt.Println(reflect.TypeOf(aaa), ok, err)
+	}
 
 	//header := []curl.Header{
 	//	{"Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"},
