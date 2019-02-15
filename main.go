@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/goris/router"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
@@ -13,20 +12,19 @@ const (
 
 func main() {
 	app := iris.New()
-	//app.RegisterView(iris.HTML("./apps/home/views", ".html").Layout("shared/layout.html"))
-	app.StaticWeb("/public", publicDir)
+	app.RegisterView(iris.HTML("./apps/home/views", ".html").Layout("shared/layout.html"))
+	//app.StaticWeb("/public", publicDir)
 	//app.OnAnyErrorCode(onError)
 
 	mvc.Configure(app.Party("/"), router.HomeRouters)
 	mvc.Configure(app.Party("/admin"), router.AdminRouters)
-	//mvc.New(app.Party("/*")).Handle(new(controllers.BaseController))
+
+	//homeApp := mvc.New(app.Party("/"))
+	//homeApp.Register(session.Start, time.Now())
+	//homeApp.Handle(new(controllers.ExampleController))
 
 	app.Run(iris.Addr(":8080"))
-}
 
-func handler(ctx iris.Context) {
-	fmt.Println(ctx)
-	ctx.Writef("Hello from method: %s and path: %s", ctx.Method(), ctx.Path())
 }
 
 //

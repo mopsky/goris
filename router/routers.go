@@ -7,8 +7,38 @@ package router
 import (
 	AdminControllers "github.com/goris/apps/admin/controllers"
 	HomeControllers "github.com/goris/apps/home/controllers"
+	"github.com/goris/kernel/db"
 	"github.com/kataras/iris/mvc"
+	"github.com/kataras/iris/sessions"
+	"github.com/kataras/iris/sessions/sessiondb/redis/service"
+	"time"
 )
+
+func GorisSession() *sessions.Sessions {
+	db := db.New(service.Config{
+		Network:     "tcp",
+		Addr:        "192.168.1.231:22122",
+		Password:    "",
+		Database:    "",
+		MaxIdle:     0,
+		MaxActive:   0,
+		IdleTimeout: time.Duration(5) * time.Minute,
+		Prefix:      ""}) // optionally configure the bridge between your redis server
+
+	// close connection when control+C/cmd+C
+	//iris.RegisterOnInterrupt(func() {
+	//	db.Close()
+	//})
+	//
+	//defer db.Close()
+
+	session := sessions.New(sessions.Config{
+		Cookie:  "GORISSS",
+		Expires: 60 * time.Minute,
+	})
+	session.UseDatabase(db)
+	return session
+}
 
 /* Home 控制器 */
 func HomeRouters(app *mvc.Application) {
@@ -23,7 +53,7 @@ func HomeRouters(app *mvc.Application) {
 	//})
 
 	/*主路由*/
-	app.Handle(new(HomeControllers.IndexController))
+	app.Register(GorisSession().Start, time.Now()).Handle(new(HomeControllers.IndexController))
 
 	/*子路由*/
 
@@ -40,7 +70,7 @@ func AdminRouters(app *mvc.Application) {
 	//app.Router.Use(middleware.BasicAuth)
 
 	/*主路由*/
-	app.Handle(new(AdminControllers.IndexController))
+	app.Register(GorisSession().Start, time.Now()).Handle(new(AdminControllers.IndexController))
 
 	/*子路由*/
 	app.Party("/about").Handle(new(AdminControllers.AboutController))

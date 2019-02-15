@@ -1,9 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/goris/kernel/curl"
-	"reflect"
+	"github.com/goris/conf/yaml"
+	"github.com/goris/utils/types"
 )
 
 type MyTest struct {
@@ -192,12 +193,12 @@ func main() {
 	//fmt.Println(c, err2)
 
 	//a, b := http.Get("")
-	for i := 0; i < 2; i++ {
-		res, err := curl.Get("http://tool.bitefu.net/jiari/vip.php?d=201901&type=0&apikey=123456", true)
-		//fmt.Println(res)
-		aaa, ok := res.(map[string]interface{})["status"]
-		fmt.Println(reflect.TypeOf(aaa), ok, err)
-	}
+	//for i := 0; i < 2; i++ {
+	//	res, err := curl.Get("http://tool.bitefu.net/jiari/vip.php?d=201901&type=0&apikey=123456", true)
+	//	//fmt.Println(res)
+	//	aaa, ok := res.(map[string]interface{})["status"]
+	//	fmt.Println(reflect.TypeOf(aaa), ok, err)
+	//}
 
 	//header := []curl.Header{
 	//	{"Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -229,4 +230,28 @@ func main() {
 	//res, err2 := redis.Keys("yangxb12", true)
 	//fmt.Println(res, err2)
 
+	a, _ := yaml.BusinessConf()
+	fmt.Println(a.Get("users.reg.min_login_name_len"))
+	fmt.Println(a.Int("users.reg.max_login_name_len"))
+
+	b := []byte(`{"a": {"a1": 1, "a2": "i am a2", "a3": {"a31": 2}}, "b": "i am b"}`)
+	var config types.TMap
+	err := json.Unmarshal(b, &config.Value)
+	if err == nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(config)
+
+	fmt.Println(config.Get("a"))
+	fmt.Println(config.Get("a.a3.a31"))
+
+	//t := interface{}(1)
+	//fmt.Println(t.(int))
+	//
+	//x := interface{}(&struct { a int; b string}{a: 1, b: "c"})
+	//fmt.Println(x.(*struct{a int; b string}))
+	//
+	//type y struct { a int; b string}
+	//fmt.Println(x.(*y))
 }

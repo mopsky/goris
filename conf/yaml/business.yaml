@@ -1,0 +1,26 @@
+# 业务配置文件
+
+#用户配置
+users:
+  #用户注册配置
+  reg:
+    #注册用户名最小长度
+    min_login_name_len: 3
+    #注册用户名最大长度
+    max_login_name_len: 16
+    #注册赠送金额
+    present_amount: 500
+
+  #用户其他配置
+  other:
+    test: 1
+
+#店铺配置
+shops:
+  other:
+    test: 1
+
+#订单配置
+orders:
+  other:
+    test: 1

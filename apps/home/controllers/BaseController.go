@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/sessions"
+	"time"
 )
 
 // 用户结构
@@ -24,23 +24,27 @@ type ShopInfo struct {
 
 // 基类控制器
 type BaseController struct {
-	//mvc.BaseController
-	Session  *sessions.Session
-	userInfo UserInfo
-	shopInfo ShopInfo
-	userID   int
-	shopID   int
+	Session   *sessions.Session
+	StartTime time.Time
+	ctx       iris.Context
+	userInfo  UserInfo
+	shopInfo  ShopInfo
+	userID    int
+	shopID    int
 }
 
 // BeginRequest initializes the current user's Session.
 func (c *BaseController) BeginRequest(ctx iris.Context) {
-	fmt.Println("BeginRequest", ctx)
-	c.userInfo.fullName = "样细胞"
-	//c.Session = s.Manager.Start(ctx)
+	c.ctx = ctx
 }
 
 // EndRequest is here to complete the `BaseController`.
 func (c *BaseController) EndRequest(ctx iris.Context) {
+	//
+}
+
+// 登录判断
+func (c *BaseController) CheckLogin() {
 	//
 }
 
