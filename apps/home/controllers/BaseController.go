@@ -8,18 +8,18 @@ import (
 
 // 用户结构
 type UserInfo struct {
-	userID    int
-	userPhone string
-	userLogo  string
-	loginName string
-	fullName  string
+	UserID    int
+	UserPhone string
+	UserLogo  string
+	LoginName string
+	FullName  string
 }
 
 // 店铺结构
 type ShopInfo struct {
-	shopID   int
-	shopName string
-	shopLogo string
+	ShopID   int
+	ShopName string
+	ShopLogo string
 }
 
 // 基类控制器
@@ -27,10 +27,10 @@ type BaseController struct {
 	Session   *sessions.Session
 	StartTime time.Time
 	ctx       iris.Context
-	userInfo  UserInfo
-	shopInfo  ShopInfo
-	userID    int
-	shopID    int
+	UserInfo  UserInfo
+	ShopInfo  ShopInfo
+	UserID    int
+	ShopID    int
 }
 
 // BeginRequest initializes the current user's Session.

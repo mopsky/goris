@@ -7,6 +7,12 @@ import (
 //自定义类型库
 type T map[interface{}]interface{}
 
+//错误
+type Err struct {
+	Title string
+	Code  int
+}
+
 type TMap struct {
 	Value interface{}
 }

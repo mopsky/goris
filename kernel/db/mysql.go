@@ -62,7 +62,7 @@ func Init(m *Model, sTable string) {
 
 	m.sTable = sTable
 	// 初始化数据库 "pfws:pfws2016@tcp(192.168.1.231:3306)/pfws?charset=utf8"
-	m.db, m.err = sql.Open("mysql", yaml.DATASOURCE)
+	m.db, m.err = sql.Open("mysql", yaml.DB_SOURCE)
 	if m.err != nil {
 		return
 	}

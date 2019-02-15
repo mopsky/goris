@@ -1,4 +1,4 @@
-package db
+package session
 
 import (
 	"fmt"
@@ -62,31 +62,32 @@ func (db *Database) OnUpdateExpiration(sid string, newExpires time.Duration) err
 	return db.redis.UpdateTTLMany(sid, int64(newExpires.Seconds()))
 }
 
-const delim = "_"
+const prefix = "sess"
+const delim = "-"
 
-func makeKey(sid, key string) string {
-	return sid + delim + key
+func makeKey(sid string) string {
+	return prefix + delim + sid
 }
 
 // Set sets a key value of a specific session.
 // Ignore the "immutable".
 func (db *Database) Set(sid string, lifetime sessions.LifeTime, key string, value interface{}, immutable bool) {
 	fmt.Println(sid, lifetime, key, value)
-	valueBytes, err := sessions.DefaultTranscoder.Marshal(value)
+	valueBytes, err := sessions.DefaultTranscoder.Marshal(map[string]interface{}{key: value})
 	if err != nil {
 		golog.Error(err)
 		fmt.Println(err)
 		return
 	}
 
-	if err = db.redis.Set(makeKey(sid, key), valueBytes, int64(lifetime.DurationUntilExpiration().Seconds())); err != nil {
+	if err = db.redis.Set(makeKey(sid), string(valueBytes), int64(lifetime.DurationUntilExpiration().Seconds())); err != nil {
 		golog.Debug(err)
 	}
 }
 
 // Get retrieves a session value based on the key.
 func (db *Database) Get(sid string, key string) (value interface{}) {
-	db.get(makeKey(sid, key), &value)
+	db.get(makeKey(sid), &value)
 	return
 }
 
@@ -129,7 +130,7 @@ func (db *Database) Len(sid string) (n int) {
 
 // Delete removes a session key value based on its key.
 func (db *Database) Delete(sid string, key string) (deleted bool) {
-	err := db.redis.Delete(makeKey(sid, key))
+	err := db.redis.Delete(makeKey(sid))
 	if err != nil {
 		golog.Error(err)
 	}

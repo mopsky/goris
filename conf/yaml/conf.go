@@ -7,7 +7,8 @@ import (
 	"io/ioutil"
 )
 
-var DATASOURCE string
+var DB_SOURCE string
+var REDIS_SOURCE string
 
 func LoadConfig(path string) (*types.TMap, error) {
 	yamlFile, err := ioutil.ReadFile(path)

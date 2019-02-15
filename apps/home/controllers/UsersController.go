@@ -17,7 +17,7 @@ func (c *UsersController) PostTest() string {
 }
 
 func (c *UsersController) GetLogin() string {
-	userInfo := UserInfo{userID: 27, userPhone: "18950295811", loginName: "yangxb", fullName: "杨夕兵"}
+	userInfo := UserInfo{UserID: 27, UserPhone: "18950295811", LoginName: "yangxb", FullName: "杨夕兵"}
 	c.Session.Set("UserInfo", userInfo)
 	return "Login"
 }

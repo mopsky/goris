@@ -1,10 +1,8 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/goris/conf/yaml"
-	"github.com/goris/kernel/db"
-	"strconv"
 )
 
 type MyTest struct {
@@ -26,15 +24,6 @@ type MyChildTest struct {
 }
 
 func main() {
-	//读取数据库配置
-	c, err := yaml.DataBaseConf()
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	//初始化数据库
-	host, port, database, user, pass := c.String("host"), c.Int("port"), c.String("database"), c.String("user"), c.String("pass")
-	yaml.DATASOURCE = user + ":" + pass + "@tcp(" + host + ":" + strconv.Itoa(port) + ")/" + database + "?charset=utf8"
 
 	//	test := new(MyChildTest)
 	////	test.set(1,"2")
@@ -53,11 +42,11 @@ func main() {
 	//}
 	//fmt.Println(test[0]["login_name"], len(test))
 	//
-	test2, err := db.M("user").Query("select * from user where user_id = 27")
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(test2)
+	//test2, err := db.M("user").Query("select * from user where user_id = 27")
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//fmt.Println(test2)
 	//
 	//test3, err := M("user").Where("user_id < 100").Limit(10).Find()
 	//if err != nil {
@@ -248,4 +237,16 @@ func main() {
 	//
 	//type y struct { a int; b string}
 	//fmt.Println(x.(*y))
+
+	type Test struct {
+		A int    `json:"TestA"`
+		B string `json:"TestB"`
+	}
+
+	data := map[string]Test{"test": {A: 1, B: "2"}, "test2": {A: 3, B: "4"}}
+
+	//data3 := Test{A:1, B:"2"}
+
+	jsons, err := json.Marshal(data)
+	fmt.Println(string(jsons), err)
 }

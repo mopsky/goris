@@ -7,7 +7,8 @@ package router
 import (
 	AdminControllers "github.com/goris/apps/admin/controllers"
 	HomeControllers "github.com/goris/apps/home/controllers"
-	"github.com/goris/kernel/db"
+	"github.com/goris/conf/yaml"
+	"github.com/goris/kernel/session"
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
 	"github.com/kataras/iris/sessions/sessiondb/redis/service"
@@ -15,9 +16,9 @@ import (
 )
 
 func GorisSession() *sessions.Sessions {
-	db := db.New(service.Config{
+	db := session.New(service.Config{
 		Network:     "tcp",
-		Addr:        "192.168.1.231:22122",
+		Addr:        yaml.REDIS_SOURCE,
 		Password:    "",
 		Database:    "",
 		MaxIdle:     0,
