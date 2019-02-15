@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 )
 
+var DATASOURCE string
+
 func LoadConfig(path string) (*types.TMap, error) {
 	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {

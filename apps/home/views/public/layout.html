@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{.Title}} - layout</title>
+
+</head>
+
+<body>
+    <div>
+        i am layout html
+    </div>
+
+    <div class="container body-content">
+        <!-- Render the current template here -->
+        {{ yield }}
+        <hr />
+        <footer>
+            <p>&copy; 2019 - 福州晨丰科技有限公司</p>
+        </footer>
+    </div>
+</body>
+
+</html>

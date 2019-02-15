@@ -1,0 +1,11 @@
+﻿<h2>{{.Title}}</h2>
+<h3>{{.Message}}</h3>
+<h3>{{.Map}}</h3>
+
+
+{{range .Users}}
+    <h3>user_phone = {{.user_phone}}</h3>
+    <h3>login_name = {{.login_name}}</h3>
+{{end}}
+
+<p>Use this area to provide additional information.......</p>

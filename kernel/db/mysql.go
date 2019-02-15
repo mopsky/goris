@@ -9,6 +9,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/goris/conf/yaml"
 	"github.com/goris/utils"
 	"github.com/kataras/iris/core/errors"
 	"strconv"
@@ -60,9 +61,8 @@ func Init(m *Model, sTable string) {
 	}
 
 	m.sTable = sTable
-
-	//初始化数据库
-	m.db, m.err = sql.Open("mysql", "pfws:pfws2016@tcp(192.168.1.231:3306)/pfws?charset=utf8")
+	// 初始化数据库 "pfws:pfws2016@tcp(192.168.1.231:3306)/pfws?charset=utf8"
+	m.db, m.err = sql.Open("mysql", yaml.DATASOURCE)
 	if m.err != nil {
 		return
 	}

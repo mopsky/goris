@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/goris/kernel/db"
+	"github.com/kataras/iris/mvc"
 	"time"
 )
 
@@ -20,6 +22,17 @@ func (c *ExampleController) Get() string {
 		visits, since)
 }
 
-func (c *ExampleController) GetAaa() string {
-	return "I am aaa"
+func (c *ExampleController) GetView() mvc.Result {
+	users, err := db.M("user").Where("user_id < 100").Limit(2).Select()
+	fmt.Println(users, err)
+
+	return mvc.View{
+		Name: "test/test.html",
+		Data: map[string]interface{}{
+			"Title":   "Title",
+			"Message": "Message",
+			"Map":     map[int]string{1: "a", 2: "b"},
+			"Users":   users,
+		},
+	}
 }
